@@ -7,6 +7,7 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
+
 body{
 background:#0f0f0f;
 color:white;
@@ -22,7 +23,7 @@ margin:15px;
 }
 
 button{
-padding:15px;
+padding:12px;
 border:none;
 border-radius:10px;
 font-size:16px;
@@ -31,11 +32,13 @@ background:#28a745;
 color:white;
 }
 
-.shop{
-margin-top:20px;
+img{
+width:200px;
+border-radius:10px;
+margin-top:10px;
 }
-</style>
 
+</style>
 </head>
 
 <body>
@@ -43,86 +46,111 @@ margin-top:20px;
 <h1>🚜 EarnTon Ranch</h1>
 
 <div class="card">
-<h2 id="coins">Coins: 100</h2>
-<h3 id="cows">Cows: 0</h3>
-<h3 id="profit">Profit/sec: 0</h3>
+
+<h2>🛒 Mining Machines</h2>
+
+<img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400">
+<p>Basic Miner</p>
+<p>Price: 0.5 TON</p>
+<p>Return after 24h: 0.60 TON</p>
+<button onclick="invest(0.5,0.6)">Invest</button>
+
+<br><br>
+
+<img src="https://images.unsplash.com/photo-1640161704729-cbe966a08476?w=400">
+<p>Pro Miner</p>
+<p>Price: 1 TON</p>
+<p>Return after 24h: 1.20 TON</p>
+<button onclick="invest(1,1.2)">Invest</button>
+
+<br><br>
+
+<img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400">
+<p>Mega Miner</p>
+<p>Price: 2 TON</p>
+<p>Return after 24h: 2.5 TON</p>
+<button onclick="invest(2,2.5)">Invest</button>
+
+<br><br>
+
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400">
+<p>Ultra Miner</p>
+<p>Price: 5 TON</p>
+<p>Return after 24h: 6 TON</p>
+<button onclick="invest(5,6)">Invest</button>
+
 </div>
 
 <div class="card">
-<button onclick="collect()">💰 Collect Profit</button>
+
+<h2 id="coins">Coins: 100</h2>
+<h3 id="miners">Machines: 0</h3>
+
 </div>
 
-<div class="card shop">
+<div class="card">
 
-<h2>🛒 Shop</h2>
-
-<button onclick="buyCow()">🐄 Buy Cow (50)</button>
+<button onclick="collect()">💰 Collect Profit</button>
 
 </div>
 
 <script>
 
-let coins = localStorage.getItem("coins") ? parseInt(localStorage.getItem("coins")) : 100
-let cows = localStorage.getItem("cows") ? parseInt(localStorage.getItem("cows")) : 0
+let coins = localStorage.getItem("coins") ? parseFloat(localStorage.getItem("coins")) : 100
+let profit = localStorage.getItem("profit") ? parseFloat(localStorage.getItem("profit")) : 0
+let time = localStorage.getItem("time") ? parseInt(localStorage.getItem("time")) : 0
+let machines = localStorage.getItem("machines") ? parseInt(localStorage.getItem("machines")) : 0
 
 function save(){
 localStorage.setItem("coins",coins)
-localStorage.setItem("cows",cows)
+localStorage.setItem("profit",profit)
+localStorage.setItem("time",time)
+localStorage.setItem("machines",machines)
 }
 
 function update(){
-document.getElementById("coins").innerText = "Coins: " + coins
-document.getElementById("cows").innerText = "Cows: " + cows
-document.getElementById("profit").innerText = "Profit/sec: " + cows*2
+document.getElementById("coins").innerText="Coins: "+coins
+document.getElementById("miners").innerText="Machines: "+machines
 }
 
-function buyCow(){
+function invest(price,reward){
 
-if(coins >= 50){
+if(coins < price){
+alert("Not enough balance")
+return
+}
 
-coins -= 50
-cows += 1
+coins -= price
+profit += reward
+machines += 1
+time = Date.now() + 86400000
 
 save()
 update()
 
-}else{
-alert("Not enough coins")
-}
+alert("Investment successful\nReturn after 24 hours")
 
 }
 
 function collect(){
 
-let profit = cows * 5
+if(Date.now() < time){
+alert("You must wait 24 hours")
+return
+}
 
 coins += profit
+profit = 0
 
 save()
 update()
+
+alert("Profit collected")
 
 }
 
-setInterval(()=>{
-
-coins += cows * 2
-
-save()
 update()
 
-},1000)
-
-update()
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script>
-const supabaseUrl = "https://qcaktgyumngdcvuimbxn.supabase.co";
-const supabaseKey = "sb_publishable_f2nvdaYx2Ay1F5hTkXFSg_P2LypxB9";
-
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 </script>
 
 </body>
