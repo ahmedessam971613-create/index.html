@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EarnTon Ranch</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+body{
+background:#111;
+color:white;
+text-align:center;
+font-family:sans-serif;
+}
+
+button{
+padding:15px;
+font-size:18px;
+margin:10px;
+border-radius:10px;
+border:none;
+background:#2ea44f;
+color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🚜 EarnTon Ranch</h1>
+
+<h2 id="coins">Coins: 100</h2>
+<h3 id="cows">Cows: 0</h3>
+
+<button onclick="buyCow()">🐄 Buy Cow</button>
+<button onclick="collect()">💰 Collect Profit</button>
+
+<script>
+
+let coins = 100
+let cows = 0
+
+function buyCow(){
+if(coins >= 50){
+coins -= 50
+cows++
+update()
+}else{
+alert("Not enough coins")
+}
+}
+
+function collect(){
+let profit = cows * 5
+coins += profit
+update()
+}
+
+function update(){
+document.getElementById("coins").innerText = "Coins: " + coins
+document.getElementById("cows").innerText = "Cows: " + cows
+}
+
+</script>
+
+</body>
+</html>
