@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>EarnTon Ranch</title>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-
 body{
 background:#0f0f0f;
 color:white;
@@ -19,7 +17,15 @@ font-family:sans-serif;
 background:#1b1b1b;
 padding:20px;
 border-radius:15px;
-margin:15px;
+margin:20px;
+box-shadow:0 0 15px rgba(0,0,0,0.6);
+}
+
+.machine{
+background:#222;
+padding:15px;
+border-radius:12px;
+margin:20px;
 }
 
 button{
@@ -27,18 +33,23 @@ padding:12px;
 border:none;
 border-radius:10px;
 font-size:16px;
-margin:10px;
+margin-top:10px;
 background:#28a745;
 color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#34d058;
 }
 
 img{
-width:200px;
+width:220px;
 border-radius:10px;
 margin-top:10px;
 }
-
 </style>
+
 </head>
 
 <body>
@@ -46,89 +57,81 @@ margin-top:10px;
 <h1>🚜 EarnTon Ranch</h1>
 
 <div class="card">
+<h2>⛏ Mining Machines</h2>
 
-<h2>🛒 Mining Machines</h2>
-
+<div class="machine">
 <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400">
-<p>Basic Miner</p>
+<h3>Basic Miner</h3>
 <p>Price: 0.5 TON</p>
 <p>Return after 24h: 0.60 TON</p>
-<button onclick="invest(0.5,0.6)">Invest</button>
+<button onclick="invest(0.5,0.6)">Buy</button>
+</div>
 
-<br><br>
-
+<div class="machine">
 <img src="https://images.unsplash.com/photo-1640161704729-cbe966a08476?w=400">
-<p>Pro Miner</p>
+<h3>Pro Miner</h3>
 <p>Price: 1 TON</p>
 <p>Return after 24h: 1.20 TON</p>
-<button onclick="invest(1,1.2)">Invest</button>
+<button onclick="invest(1,1.2)">Buy</button>
+</div>
 
-<br><br>
-
+<div class="machine">
 <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400">
-<p>Mega Miner</p>
+<h3>Mega Miner</h3>
 <p>Price: 2 TON</p>
 <p>Return after 24h: 2.5 TON</p>
-<button onclick="invest(2,2.5)">Invest</button>
+<button onclick="invest(2,2.5)">Buy</button>
+</div>
 
-<br><br>
-
+<div class="machine">
 <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400">
-<p>Ultra Miner</p>
+<h3>Ultra Miner</h3>
 <p>Price: 5 TON</p>
 <p>Return after 24h: 6 TON</p>
-<button onclick="invest(5,6)">Invest</button>
+<button onclick="invest(5,6)">Buy</button>
+</div>
 
 </div>
 
 <div class="card">
-
-<h2 id="coins">Coins: 100</h2>
-<h3 id="miners">Machines: 0</h3>
-
+<h2 id="balance">Balance: 10 TON</h2>
 </div>
 
 <div class="card">
-
 <button onclick="collect()">💰 Collect Profit</button>
-
 </div>
 
 <script>
 
-let coins = localStorage.getItem("coins") ? parseFloat(localStorage.getItem("coins")) : 100
+let balance = localStorage.getItem("balance") ? parseFloat(localStorage.getItem("balance")) : 10
 let profit = localStorage.getItem("profit") ? parseFloat(localStorage.getItem("profit")) : 0
 let time = localStorage.getItem("time") ? parseInt(localStorage.getItem("time")) : 0
-let machines = localStorage.getItem("machines") ? parseInt(localStorage.getItem("machines")) : 0
 
 function save(){
-localStorage.setItem("coins",coins)
+localStorage.setItem("balance",balance)
 localStorage.setItem("profit",profit)
 localStorage.setItem("time",time)
-localStorage.setItem("machines",machines)
 }
 
 function update(){
-document.getElementById("coins").innerText="Coins: "+coins
-document.getElementById("miners").innerText="Machines: "+machines
+document.getElementById("balance").innerText="Balance: "+balance+" TON"
 }
 
 function invest(price,reward){
 
-if(coins < price){
-alert("Not enough balance")
+if(balance < price){
+alert("Not enough TON")
 return
 }
 
-coins -= price
+balance -= price
 profit += reward
-machines += 1
 time = Date.now() + 86400000
 
 save()
 update()
 
-alert("Investment successful\nReturn after 24 hours")
+alert("Investment successful. Profit after 24 hours.")
 
 }
 
@@ -139,13 +142,13 @@ alert("You must wait 24 hours")
 return
 }
 
-coins += profit
+balance += profit
 profit = 0
 
 save()
 update()
 
-alert("Profit collected")
+alert("Profit collected!")
 
 }
 
